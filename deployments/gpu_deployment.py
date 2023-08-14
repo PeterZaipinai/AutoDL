@@ -40,23 +40,29 @@ class GPUDeploy:
             print(resp['msg'])
             return None
 
-    def create_deployment(self, name, deployment_type, region_sign,
-                          gpu_name, cuda_v, num_gpus, memory_size,
-                          cpu_num, image_uuid, cmd):
+    def create_deployment(self, name, deployment_type, replica_num, region_sign,
+                          gpu_name_set, cuda_v, num_gpus, memory_size_from,
+                          memory_size_to, cpu_num_from, cpu_num_to,
+                          image_uuid, cmd):
 
         data = {
             "name": name,
             "deployment_type": deployment_type,
-            "region_sign": region_sign,
-            "gpu_name_set": [gpu_name],
-            "cuda_v": cuda_v,
-            "gpu_num": num_gpus,
-            "memory_size_from": memory_size,
-            "memory_size_to": memory_size,
-            "cpu_num_from": cpu_num,
-            "cpu_num_to": cpu_num,
-            "image_uuid": image_uuid,
-            "cmd": cmd
+            "replica_num": replica_num,
+            "container_template": {
+                "region_sign": region_sign,
+                "gpu_name_set": gpu_name_set,
+                "gpu_num": num_gpus,
+                "cuda_v": cuda_v,
+                "cpu_num_from": cpu_num_from,
+                "cpu_num_to": cpu_num_to,
+                "memory_size_from": memory_size_from,
+                "memory_size_to": memory_size_to,
+                "cmd": cmd,
+                "price_from": 1,
+                "price_to": 9999,
+                "image_uuid": image_uuid,
+            },
         }
 
         resp = self.api_client.post('/deployments', json=data)

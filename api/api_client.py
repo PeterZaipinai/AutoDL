@@ -12,6 +12,7 @@ class APIClient:
 
     def add_auth_header(self, headers):
         headers['Authorization'] = 'token ' + self.api_token
+        headers['Content-Type'] = 'application/json'
         return headers
 
     def post(self, path, json=None, params=None):
